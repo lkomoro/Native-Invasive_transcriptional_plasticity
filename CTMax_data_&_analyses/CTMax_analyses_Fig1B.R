@@ -60,8 +60,9 @@ t.test(loe.temp.C ~ species, data, var.equal=TRUE)
 #linear model with size (various versions, all tell same story)
 lm<-lm(loe.temp.C ~ species*fork.length.mm, data)
 summary(lm)
+anova(lm)#Table S1
 
-anova(lm)#if use this output format reads like ancova, need to satisfy assumptions (which we don't)
+#Exploring other models, confirm all give similar results.
 lm1<-lm(loe.temp.C ~ species*weight.g, data)
 summary(lm1)
 
@@ -73,13 +74,12 @@ data$resid<-resid(lm)
 data$fitted<-fitted(lm)
 ##plot fitted vs. residuals to look for fanning, etc. to check assumption of homogeneity of variances
 plot(data$resid~data$fitted)
-
 ggplot(data,aes(x=fitted,y=resid))+geom_point()+theme_bw()
 
 #since species is a factor, also should check equal variance assumption with boxplots of residuals for each group
 plot(data$resid~data$species)
 ggplot(data,aes(x=species,y=resid))+geom_boxplot()+theme_bw()
 
-##this is a histogram of the residuals, which will tell you if you have normally distributed errors
+##Histogram of the residuals, to look for normally distributed errors
 ggplot(data, aes(x=resid,y=..density..)) + geom_histogram(binwidth=.1)+
   geom_density()
