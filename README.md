@@ -1,7 +1,7 @@
 # Native-Invasive transcriptional plasticity
 Repository for scripts and workflow notes for project investigating transcriptional plasticity in native vs invasive fishes
 
-Bioinformatics Analyses General Workflow (sections align with subfolders in repository)
+Bioinformatics Analyses General Workflow (sections align with subfolders in repository). 
 1. RNA-Seq Initial QC and Processing to counts
   •	De-multiplexed and combined (concatenated) sequences across lanes for each sample
   • FASTQC to assess initial data quality
