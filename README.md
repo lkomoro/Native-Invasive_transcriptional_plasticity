@@ -4,8 +4,8 @@ Repository for scripts and workflow notes for project investigating transcriptio
 ## Bioinformatics Analyses General Workflow 
 *(sections align with subfolders in repository)*
 #### 1. RNA-Seq Initial QC and Processing to counts
-  * De-multiplexed and combined (concatenated) sequences across lanes for each sample. 
-  * FASTQC to assess initial data quality. 
+  * De-multiplexed and combined (concatenated) sequences across lanes for each sample
+  * FASTQC to assess initial data quality
   * Raw reads per sample filtered via adaptor trimming with Scythe and adaptive quality trimming with Sickle
   * Trimmed sequences aligned to previously generated reference transcriptomes for each species using BWA 
       * Additional filtering to remove secondary and supplementary alignments to avoid issues of paralog and chimeric sequences. 
