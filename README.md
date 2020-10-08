@@ -1,5 +1,5 @@
 # Native-Invasive transcriptional plasticity
-Repository for scripts and workflow notes for project investigating transcriptional plasticity in native vs invasive fishes
+Repository for scripts and workflow notes for project investigating transcriptional plasticity comparing two native and invasive fishes
 
 ## Bioinformatics Analyses General Workflow 
 *(sections align with subfolders in repository)*
