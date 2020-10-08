@@ -1,0 +1,4 @@
+#fastq_illumina_filter --keep N -v -v -o Mb_Tlow_t60_7_combined_R1.fastq_good_reads.fq Mb_Tlow_t60_7_combined_R1.fastq
+
+fastq_illumina_filter --keep N -v -v -o *_good_reads.fq *.fastq
+
