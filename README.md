@@ -26,11 +26,11 @@ Repository for scripts and workflow notes for project investigating transcriptio
     
 #### 2. Differential Expression Analyses
   * Differential expression analyses using the limma-voom transformation and a general linear model 
-   * *Limma_temptimesplit_orthogroup_rm2rds.R*
+    * *Limma_temptimesplit_orthogroup_rm2rds.R*
  * Created graphs of LFC distribution shifts, DE reaction norms and heatmap for MS
-   * *Sig_genes_heatmaps_orthogroups.R, Reaction_normgraph.R*
+    * *Sig_genes_heatmaps_orthogroups.R, Reaction_normgraph.R*
  * UpsetR to visualize shared and unique DE orthogroups between treatments
-   * *UpsetR_siggenes_shared.R*
+    * *UpsetR_siggenes_shared.R*
 
 #### 3. Functional Analyses
  * Pre-processing: combined and removed duplicate GO terms for annotated transcripts within orthogroups
