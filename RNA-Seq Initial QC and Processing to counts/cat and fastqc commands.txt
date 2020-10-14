@@ -1,3 +1,0 @@
-cat *-common_filename >./recombined_redo_files_to_replace_others/output_combined_R2.fastq
-
-nohup fastqc -f fastq -t 32 *.fastq > fastqc.stdout 2> fastqc.stderr &
