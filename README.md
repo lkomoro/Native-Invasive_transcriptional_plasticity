@@ -1,5 +1,5 @@
 # Native-Invasive transcriptional plasticity
-Repository for scripts and workflow notes for project investigating transcriptional plasticity comparing two native and invasive fishes
+Repository for scripts and workflow notes for project investigating transcriptional plasticity in native vs invasive fishes
 
 ## Bioinformatics Analyses General Workflow 
 *(sections align with subfolders in repository)*
@@ -26,7 +26,7 @@ Repository for scripts and workflow notes for project investigating transcriptio
     
 #### 2. Differential Expression Analyses
   * Differential expression analyses using the limma-voom transformation and a general linear model 
-    * *Limma_orthogroup_GH.R*
+    * *Limma_temptimesplit_orthogroup_rm2rds.R*
  * Created graphs of LFC distribution shifts, DE reaction norms and heatmap for MS
     * *Sig_genes_heatmaps_orthogroups.R, Reaction_normgraph.R*
  * UpsetR to visualize shared and unique DE orthogroups between treatments

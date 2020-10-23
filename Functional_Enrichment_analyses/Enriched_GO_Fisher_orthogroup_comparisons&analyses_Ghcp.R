@@ -2,10 +2,10 @@
 #Reading in files that are output from TopGO analyses
 #rm(list=ls())
 library(here)
-here()
-setwd(here("./DDIG_data&analyses/Transdecoder&Orthofinderwork/Orthogroup_TopGO_analyses"))
+setwd("./Functional_Enrichment_analyses/")
 
 #Read in Fisher Exact Test Results:####
+#write in loop to streamline this, did manually this round to only include a priori constrasts of final interest
 list.files(pattern="FisherGO.txt")
 
 CTMax2.0.HC.Ds<-read.delim("CTMax2.0.HC.Ds_FisherGO.txt", header=T)
@@ -82,6 +82,7 @@ comb<-merge(comb,CTMax2.60.HC.Mb)
 comb<-merge(comb,CTMax4.60.HC.Mb)
 comb<-merge(comb,CTMax8.60.HC.Mb)
 comb<-merge(comb,CTMax12.60.HC.Mb)
+
 
 #Subset & venn diagram####
 #pval<-0.05 
@@ -162,58 +163,26 @@ length(intersect(CTMax2.0.HC.Dssig, CTMax2.60.HC.Dssig))#example
 #length(setdiff(CTMax2.0.HC.Dssig, CTMax2.60.HC.Dssig))
 #note this can only handle two at a time, and then have overlap need to account for (so see code below to generate common lists by temp between species)
 
-require("gplots")
-ls(pattern="sig")#just to get object list to check/paste names to combine
-venn(list(CTMax2.0.HC.Ds = CTMax2.0.HC.Dssig, CTMax4.0.HC.Ds = CTMax4.0.HC.Dssig, CTMax6.0.HC.Ds = CTMax6.0.HC.Dssig))
-venn(list(CTMax2.60.HC.Ds = CTMax2.60.HC.Dssig, CTMax4.60.HC.Ds = CTMax4.60.HC.Dssig, CTMax6.60.HC.Ds = CTMax6.60.HC.Dssig))
-
-venn(list(CTMax2.0.HC.Mb = CTMax2.0.HC.Mbsig, CTMax4.0.HC.Mb = CTMax4.0.HC.Mbsig, CTMax8.0.HC.Mb = CTMax8.0.HC.Mbsig,CTMax12.0.HC.Mb = CTMax12.0.HC.Mbsig))
-venn(list(CTMax2.60.HC.Mb = CTMax2.60.HC.Mbsig, CTMax4.60.HC.Mb = CTMax4.60.HC.Mbsig, CTMax8.60.HC.Mb = CTMax8.60.HC.Mbsig,CTMax12.60.HC.Mb = CTMax12.60.HC.Mbsig))
-
-#Combine by temp treatment
-CTMax2.0 <- unique(c(CTMax2.0.HC.Dssig,CTMax2.0.HC.Mbsig))
-length(CTMax2.0)
-venn(list(CTMax2.0.HC.Ds = CTMax2.0.HC.Dssig,CTMax2.0.HC.Mb = CTMax2.0.HC.Mbsig))
-
-CTMax4.0 <- unique(c(CTMax4.0.HC.Dssig,CTMax4.0.HC.Mbsig))
-length(CTMax4.0)
-venn(list(CTMax4.0.HC.Ds = CTMax4.0.HC.Dssig,CTMax4.0.HC.Mb = CTMax4.0.HC.Mbsig))
-
-CTMax6.0 <- unique(c(CTMax6.0.HC.Dssig,CTMax8.0.HC.Mbsig))
-length(CTMax6.0)
-venn(list(CTMax6.0.HC.Ds = CTMax6.0.HC.Dssig,CTMax8.0.HC.Mb = CTMax8.0.HC.Mbsig))
-
-
 ###############################
 t1<-comb[,c(1,5:18)]
 t<-t1[apply(t1[, -1], MARGIN = 1, function(x) any(x <= pval)), ]#save only with at least one treatment at or lower than set threshold
 comb1<-comb[,1:4]
 comb2<-merge(comb1,t)
 #write.csv(comb2,"Combined_orthogroup_sigGOenrichFisherp0.01.csv") #list including those only meeting threshold in one treatment
-write.csv(comb,"Combined_orthogroup_enrichFisher_all.csv")
-################################################
-#Note that some treatments had low numbers of significant genes based on 0.05 adj FDR, and perhaps it doesn't make sense to include results (especially in heatmap)?
-#CTMax4.0.Ds: 14 sig genes
-#CTMax6.0.Ds: 7 sig genes
-#CTMax6.60.Ds: 0 sig genes
-#CTMax8.0.HC.Mb: 9 sig genes
-#CTMax12.0.HC.Mb: 11 sig genes
-#(see saved table with added column: orthogroups_summary_sig_genes_LK.xlsx)
-###############################
+#write.csv(comb,"Combined_orthogroup_enrichFisher_all.csv")#all
 
 #Pulling out specific shared GO terms between treatments:
 #bc just exploring data, for now just viewing results and putting into written results in MS, not writing to file
 pval<-0.01
-pval<-0.05
+#pval<-0.05
 #Import GO heatmap grouping IDs and names ####
 library(dplyr)
-g<-read.csv(here("./DDIG_data&analyses/Transdecoder&Orthofinderwork/Orthogroup_GOheatmap_analyses/GO_SemSim_groups_0.92clustering.csv"))
-h<-read.csv(here("./DDIG_data&analyses/Transdecoder&Orthofinderwork/Orthogroup_GOheatmap_analyses/GO_SemSim_groupnames_0.92clustering.csv"))
+g<-read.csv("GO_SemSim_groups_0.92clustering.csv")
+h<-read.csv("GO_SemSim_groupnames_0.92clustering.csv")
 i<-inner_join(g, h, by = "group")
 j<-merge(i,comb2, all.y=T) 
 
 write.table(j,"Combined_OG_sigGOenrichFisherp0.01_wheatmap_groupnames.txt",sep = "\t") #list including those only meeting threshold in one treatment, with heatmap IDs labeled
-
 
 #Common relative temps:####
 #CTMax-2####
@@ -221,7 +190,6 @@ t2<-t1[,c(1,2,5,8,12)]#all together
 t2.1<-t2[apply(t2[, -1], MARGIN = 1, function(x) any(x <= pval)), ]
 t2.2<-merge(comb1,t2.1)
 t2.3<-merge(i,t2.1)
-#LK start here to look if there are shared groupings between species
 
 t2<-t1[,c(1,2,8)]#0-0
 t2.1<-t2[apply(t2[, -1], MARGIN = 1, function(x) all(x <= pval)), ]
@@ -465,12 +433,3 @@ t2.3<-merge(i,t2.1)
 #GO:0035914	skeletal muscle cell differentiation
 #GO:0072525	pyridine-containing compound biosynthetic process
 #GO:0034097	response to cytokine
-
-#SCRATCH TO QUICKLY LOOK AT GROUPS FOR EACH TREATMENT
-t2<-t1[,c(1,15)]#change column as desired here
-names(t2)[2]
-names(t2)[2] <- "pval"
-t2.1<-subset(t2, pval<=.01)
-t2.3<-merge(i,t2.1)
-t2.3$group<-factor(t2.3$group)
-unique(t2.3$group)
